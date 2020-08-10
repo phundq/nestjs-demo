@@ -1,7 +1,7 @@
 import { UserUpdateRequestDto } from './../common/dto/request/UserUpdateRequestDto';
 import { UserCreateRequestDto } from './../common/dto/request/UserCreateRequestDto';
 import { User } from '../common/entity/user.entity';
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeleteResult } from 'typeorm';
 
@@ -19,6 +19,15 @@ export class UsersService {
     async findById(id: number): Promise<User>{
         return await this.usersRepository.findOne(id);
     }
+    async findUser(userName: string): Promise<User>{
+        const user = await this.usersRepository.findOne({ userName });
+    if (user) {
+      return user;
+    }
+    throw new HttpException('User with this email does not exist', HttpStatus.NOT_FOUND);
+    }
+
+
 
     async create(payload: UserCreateRequestDto){
         console.log(payload)

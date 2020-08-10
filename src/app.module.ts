@@ -4,6 +4,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { Connection } from 'typeorm';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -15,7 +18,7 @@ import { Connection } from 'typeorm';
     database: 'demo',
     entities: ["dist/**/*.entity{.ts,.js}"],
     synchronize: true,
-  }), UsersModule],
+  }), UsersModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
